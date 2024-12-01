@@ -2,7 +2,7 @@
 result1 = []
 result2 = []
 difference = 0
-with open("/Users/ryanli/Desktop/advent of code/day-1/part-1/input.txt", "r") as file:
+with open("/Users/ryanli/Desktop/advent of code/2024/day-1/part-1/input.txt", "r") as file:
     for line in file:
         col1, col2 = line.split() 
         result1.append(int(col1))
