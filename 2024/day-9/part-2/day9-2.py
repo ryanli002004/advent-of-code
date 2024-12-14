@@ -18,27 +18,58 @@ for num in filestring:
         count+=1
         blank = True
 
-l = 0
-r = len(decodedstring)-1
 
-while decodedstring[l] != ".":
-    l+=1
+arroffiles = []
+lefthashpointer = len(decodedstring)-1
+righthashpointer = len(decodedstring)-1
 
-
-
-while l < r:
-    while l<r and decodedstring[l] != ".":
-        l+=1
-    while l<r and decodedstring[r] == ".":
-        r-=1
-    temp = decodedstring[l]
-    decodedstring[l] = decodedstring[r]
-    decodedstring[r] = temp
-    l+=1
-    r-=1
+while True:
+    if lefthashpointer == -1:
+        break
+    while decodedstring[lefthashpointer] == ".":
+        lefthashpointer-=1
+    righthashpointer=lefthashpointer
+    while lefthashpointer > 0 and decodedstring[lefthashpointer-1] == decodedstring[righthashpointer]:
+        lefthashpointer-=1
+    arroffiles.append((decodedstring[lefthashpointer],lefthashpointer,righthashpointer))
+    lefthashpointer-=1
+    righthashpointer = lefthashpointer
 
 
+for file in range(len(arroffiles)):
+    leftblankfinder = 0
+    rightblankfinder = 0
+    fileid = arroffiles[file][0]
+    leftfileindex = arroffiles[file][1]
+    rightfileindex = arroffiles[file][2]
+    found = False
 
+    while not found:
+        rightblankfinder +=1
+        while decodedstring[rightblankfinder] != ".":
+            rightblankfinder +=1
+        leftblankfinder = rightblankfinder
+        if leftblankfinder > leftfileindex:
+            break
+        if rightfileindex-leftfileindex == 0:
+            found = True
+            break
+        while decodedstring[rightblankfinder+1] == ".":
+            rightblankfinder +=1
+            if rightblankfinder-leftblankfinder == rightfileindex-leftfileindex:
+                found = True
+                break
+
+    if found:
+        for _ in range(rightblankfinder-leftblankfinder+1):
+            temp = decodedstring[leftblankfinder]
+            decodedstring[leftblankfinder] = decodedstring[leftfileindex]
+            decodedstring[leftfileindex] = temp
+            leftfileindex +=1
+            leftblankfinder+=1
+
+
+    
 result = 0
 for n in range(len(decodedstring)):
     if decodedstring[n] != ".":
